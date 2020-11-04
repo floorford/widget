@@ -2,10 +2,24 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Search = () => {
-  const [term, setTerm] = useState("programming");
+  const [term, setTerm] = useState("");
+  const [debouncedTerm, setDebouncedTerm] = useState(term);
   const [results, setResults] = useState([]);
 
   useEffect(() => {
+    // when user types something, set a timer to update debounce term, and cancel it immediately if user types again
+    const timerId = setTimeout(() => {
+      setDebouncedTerm(term);
+    }, 500);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [term]);
+  // if term state changes, this useEffect runs again
+
+  useEffect(() => {
+    // defined the search function to use async await
     const search = async () => {
       const { data } = await axios.get("https://en.wikipedia.org/w/api.php", {
         params: {
@@ -13,15 +27,19 @@ const Search = () => {
           list: "search",
           origin: "*",
           format: "json",
-          srsearch: term,
+          srsearch: debouncedTerm,
         },
       });
-
+      // sets results state
       setResults(data.query.search);
     };
 
-    search();
-  }, [term]);
+    // calling the search function
+    if (debouncedTerm) {
+      search();
+    }
+  }, [debouncedTerm]);
+  // if debouncedTerm state changes, this useEffect runs again
 
   const renderedResults = results.map((result) => (
     <div key={result.pageid} className='item'>
