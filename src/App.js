@@ -1,28 +1,19 @@
 import React from "react";
 
+import { accordionItems } from "./options";
+
 import Accordion from "./components/Accordion";
 import Search from "./components/Search";
-
-const items = [
-  {
-    title: "What is React?",
-    content: "React is a frontend javascript library",
-  },
-  {
-    title: "Why use React?",
-    content: "React is a favourite JS library amongst engineers",
-  },
-  {
-    title: "How do you use React?",
-    content: "You use React by creating components",
-  },
-];
+import DropdownContainer from "./components/DropdownContainer";
+import Translate from "./components/Translate";
 
 const App = () => {
   return (
     <div>
-      <Accordion items={items} />
-      <Search items={items} />
+      <Accordion items={accordionItems} />
+      <Search />
+      <Translate />
+      <DropdownContainer />
     </div>
   );
 };
