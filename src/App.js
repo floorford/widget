@@ -7,13 +7,25 @@ import Search from "./components/Search";
 import DropdownContainer from "./components/DropdownContainer";
 import Translate from "./components/Translate";
 
+import Route from "./components/Route";
+import Header from "./components/Header";
+
 const App = () => {
   return (
     <div>
-      <Accordion items={accordionItems} />
-      <Search />
-      <Translate />
-      <DropdownContainer />
+      <Header />
+      <Route path='/'>
+        <Accordion items={accordionItems} />
+      </Route>
+      <Route path='/translate'>
+        <Translate />
+      </Route>
+      <Route path='/dropdown'>
+        <DropdownContainer />
+      </Route>
+      <Route path='/list'>
+        <Search />
+      </Route>
     </div>
   );
 };
